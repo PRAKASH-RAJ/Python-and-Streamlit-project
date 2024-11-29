@@ -97,15 +97,3 @@ elif option=='PASSWORD CHANGE':
         else:
             print('invalid data')
 
-
-
-
-
-
-
-
-
-
-
-
-
