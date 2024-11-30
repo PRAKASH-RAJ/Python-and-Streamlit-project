@@ -1,15 +1,18 @@
+#import
 import streamlit as st
 import mysql.connector
 from click import password_option
 from streamlit import button
 
-mydb=mysql.connector.connect(
+#Connect to database
+mydb=mysql.connector.connect(       
     host='localhost',
     user='root',
-    password='root',
+    password='****',
     database='project'
 
 )
+#add the customer
 def add_customer(name, phno, password, balance):
     a=mydb.cursor()
     query='insert into customer(cname,phno,password,balance) values(%s,%s,%s,%s)'
@@ -27,7 +30,7 @@ def add_customer(name, phno, password, balance):
 
 
 
-
+#Web page
 st.header('WELCOME TO THE ABCD BANK')
 menu=['ADD THE CUSTOMER','WITHDRAW THE MONEY','DEPOSIT','VIEW BALANCE','PASSWORD CHANGE']
 option=st.selectbox('option',menu)
@@ -40,6 +43,7 @@ if option=='ADD THE CUSTOMER':
     if button:
         add_customer(name, phno, password, balance)
 
+#withdraw option
 elif option=='WITHDRAW THE MONEY':
     cid=st.number_input('CID',min_value=0,format='%d')
     password=st.text_input('PASSWORD',type='password')
@@ -56,6 +60,8 @@ elif option=='WITHDRAW THE MONEY':
                 st.success('withdraw successfully')
             else:
                 st.error('insufficient balance')
+                
+#Deposit option
 elif option=='DEPOSIT':
     cid=st.number_input('CID',min_value=0)
     password=st.text_input('PASSWORD',type='password')
@@ -70,6 +76,7 @@ elif option=='DEPOSIT':
             st.success(f'{amount}deposit successfully')
         else:
             st.success(f'{amount}not deposited')
+# view Balance option
 elif option=='VIEW BALANCE':
     cid=st.number_input('CID',min_value=0)
     password=st.text_input('PASSWORD',type='password')
@@ -81,7 +88,7 @@ elif option=='VIEW BALANCE':
             st.success(f'{ b[0][2]} ')
         else:
             print('invalid data')
-
+#Password changed
 elif option=='PASSWORD CHANGE':
     cid=st.number_input('CID',min_value=0)
     password=st.text_input(' OLD PASSWORD',type='password')
